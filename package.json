@@ -1,0 +1,18 @@
+{
+  "name": "gesty",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototipo funcional de Gesty (trabajo de grado) - reserva de salas operativa, resto de pantallas estaticas",
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -n server,client -c blue,orange \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run install:all && npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

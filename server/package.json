@@ -1,0 +1,19 @@
+{
+  "name": "gesty-server",
+  "version": "1.0.0",
+  "description": "API local del prototipo Gesty (unica funcion con logica real: reserva de salas)",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

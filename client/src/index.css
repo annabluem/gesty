@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", "Segoe UI", sans-serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+
+  --color-gesty-orange: #f0891f;
+  --color-gesty-orange-dark: #de7a13;
+  --color-gesty-orange-light: #fdecd8;
+  --color-gesty-navy: #13214a;
+  --color-gesty-blue-bg: #eaf6ff;
+  --color-gesty-blue-bg-dark: #cfe9fb;
+  --color-gesty-text: #1a1a2e;
+  --color-gesty-muted: #8a8a9a;
+  --color-gesty-border: #e7e7ee;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-gesty-text);
+  background: #f3f6fb;
+}
+
+@layer components {
+  .input-field {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-gesty-border);
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+    outline: none;
+  }
+  .input-field::placeholder {
+    color: #9ca3af;
+  }
+  .input-field:focus {
+    border-color: var(--color-gesty-orange);
+  }
+}
