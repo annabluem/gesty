@@ -1,6 +1,6 @@
 import { ChevronDown, User } from 'lucide-react';
 import AppShell from '../components/AppShell.jsx';
-import { bannerPosgradosImg, bannerUsbNewsImg, usuarioPerfilImg } from '../assets/images';
+import { bannerPosgradosImg, bannerUsbNewsImg, bannerEleccionesImg, usuarioPerfilImg } from '../assets/images';
 
 const NEWS = [
   {
@@ -14,17 +14,19 @@ const NEWS = [
     className: '',
   },
   {
-    title: 'Elecciones Bonaventurianas 2024',
+    title: 'Elecciones Bonaventurianas 2026',
     subtitle: 'Postúlate · Participa · Vota',
-    className: 'bg-gesty-navy row-span-2',
+    image: bannerEleccionesImg,
+    overlay: true,
+    className: 'row-span-2',
   },
   {
-    title: 'Semana del Idioma Español 2024',
+    title: 'Semana del Idioma Español 2026',
     subtitle: 'Cronograma de actividades para la Semana del idioma USB.',
     className: 'bg-amber-400 text-slate-900',
   },
   {
-    title: 'Inscripciones Abiertas 2024-2',
+    title: 'Inscripciones Abiertas 2026-2',
     className: 'bg-gradient-to-br from-fuchsia-600 to-purple-600',
   },
 ];
@@ -64,7 +66,24 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-2 grid-rows-2 gap-3">
             {NEWS.map((item) =>
-              item.image ? (
+              item.image && item.overlay ? (
+                <div
+                  key={item.title}
+                  className={`relative flex flex-col justify-end overflow-hidden rounded-xl p-4 text-white shadow-sm ${item.className}`}
+                  style={{ minHeight: 110 }}
+                >
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <p className="relative font-display text-sm font-bold leading-snug">{item.title}</p>
+                  {item.subtitle && (
+                    <p className="relative mt-1 text-xs leading-snug opacity-90">{item.subtitle}</p>
+                  )}
+                </div>
+              ) : item.image ? (
                 <div
                   key={item.title}
                   className={`overflow-hidden rounded-xl shadow-sm ${item.className}`}

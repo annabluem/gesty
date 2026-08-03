@@ -7,6 +7,7 @@ export { default as horarioPersonalizadoImg } from './horario-personalizado.png'
 
 export { default as bannerUsbNewsImg } from './banner-usb-news.png';
 export { default as bannerPosgradosImg } from './banner-posgrados.png';
+export { default as bannerEleccionesImg } from './banner-elecciones.png';
 
 export { default as categoriaDeporteImg } from './categoria-deporte.png';
 export { default as categoriaMusicaImg } from './categoria-musica.png';
