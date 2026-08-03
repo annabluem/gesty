@@ -9,7 +9,6 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Prototipo: no hay autenticación real, solo navega al inicio.
     navigate('/app/inicio');
   }
 

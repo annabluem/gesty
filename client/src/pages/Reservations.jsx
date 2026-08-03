@@ -17,9 +17,6 @@ function hoyISO() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-// Valida el formulario en el cliente para dar feedback inmediato; el servidor
-// vuelve a aplicar exactamente las mismas reglas (mas la de solapamiento, que
-// requiere consultar la base de datos) antes de guardar nada.
 function validarFormulario(form) {
   if (!form.id_sala) return 'Selecciona un salón.';
   if (!form.motivo.trim()) return 'Ingresa el motivo de la reserva.';
@@ -45,7 +42,6 @@ function validarFormulario(form) {
   return null;
 }
 
-// Solo hay fotos reales para estas salas; el resto usa el icono generico.
 function salaImagen(salaNombre) {
   if (!salaNombre) return null;
   if (salaNombre.includes('Química')) return salaQuimicaImg;
@@ -118,7 +114,6 @@ export default function Reservations() {
 
   useEffect(() => {
     loadReservas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role, profile]);
 
   function updateBloque(bloque) {

@@ -10,10 +10,6 @@ const schemaPath = path.join(__dirname, 'schema.sql');
 export const db = new DatabaseSync(dbPath);
 db.exec(readFileSync(schemaPath, 'utf8'));
 
-// Datos de referencia minimos para que el flujo de Reserva de Salas tenga
-// USUARIO / SALA / ADMINISTRATIVO reales sobre los que apoyar las llaves
-// foraneas (no hay login real: estos son los perfiles que simula el
-// selector "Docente / Administrativo" en el cliente).
 function seed() {
   const { count } = db.prepare('SELECT COUNT(*) AS count FROM usuario').get();
   if (count > 0) return;
@@ -53,8 +49,6 @@ function seed() {
 
 seed();
 
-// Perfiles simulados que expone la API para el selector Docente/Administrativo
-// del cliente (no hay autenticacion real en este prototipo).
 export function getPerfilesDemo() {
   const rows = db
     .prepare(

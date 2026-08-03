@@ -7,7 +7,6 @@ export default function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Prototipo: no hay registro real, solo navega al inicio.
     navigate('/app/inicio');
   }
 

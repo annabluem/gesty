@@ -63,7 +63,6 @@ export function getCourse(categorySlug, courseSlug) {
   return list.find((c) => c.slug === courseSlug);
 }
 
-// Un curso sin foto propia hereda la foto de su categoría.
 export function getCourseImage(categorySlug, course) {
   if (course?.image) return course.image;
   return CATEGORIES.find((c) => c.slug === categorySlug)?.image;

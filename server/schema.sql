@@ -1,16 +1,5 @@
--- Esquema de la base de datos de Gesty.
--- Refleja el modelo entidad-relacion completo definido para el trabajo de
--- grado (11 entidades). De este modelo, el prototipo ejecuta logica real
--- solo sobre USUARIO, SALA, RESERVA y ADMINISTRATIVO (el flujo de Reserva
--- de Salas); el resto de tablas existen para que el esquema sea fiel al
--- diseno, aunque sus pantallas en el cliente todavia son estaticas.
-
 PRAGMA foreign_keys = ON;
 
--- ---------------------------------------------------------------------
--- USUARIO: toda persona de la comunidad bonaventuriana (base de Docente,
--- Administrativo y Estudiante mediante el campo rol).
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS usuario (
   id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
   nombre TEXT NOT NULL,
@@ -24,17 +13,11 @@ CREATE TABLE IF NOT EXISTS usuario (
   fecha_registro TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
--- ---------------------------------------------------------------------
--- ADMINISTRATIVO: especializacion de USUARIO (rol = 'Administrativo').
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS administrativo (
   id_administrativo INTEGER PRIMARY KEY AUTOINCREMENT,
   id_usuario INTEGER NOT NULL UNIQUE REFERENCES usuario (id_usuario)
 );
 
--- ---------------------------------------------------------------------
--- SALA: espacios reservables del campus.
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS sala (
   id_sala INTEGER PRIMARY KEY AUTOINCREMENT,
   nombre TEXT NOT NULL,
@@ -43,10 +26,6 @@ CREATE TABLE IF NOT EXISTS sala (
   estado TEXT NOT NULL DEFAULT 'Disponible' CHECK (estado IN ('Disponible', 'No disponible'))
 );
 
--- ---------------------------------------------------------------------
--- RESERVA: unica entidad con logica de negocio completa en este prototipo.
--- id_administrativo queda NULL hasta que un Administrativo aprueba/rechaza.
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS reserva (
   id_reserva INTEGER PRIMARY KEY AUTOINCREMENT,
   fecha TEXT NOT NULL,
@@ -61,11 +40,6 @@ CREATE TABLE IF NOT EXISTS reserva (
   id_administrativo INTEGER REFERENCES administrativo (id_administrativo)
 );
 
--- ---------------------------------------------------------------------
--- HORARIO / DETALLE_HORARIO / ASIGNATURA: modulo de horario de clases.
--- Modelados para fidelidad con el diseno; el cliente los muestra con
--- datos estaticos (no hay pantalla que escriba en estas tablas aun).
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS horario (
   id_horario INTEGER PRIMARY KEY AUTOINCREMENT,
   semestre TEXT NOT NULL,
@@ -89,9 +63,6 @@ CREATE TABLE IF NOT EXISTS detalle_horario (
   id_asignatura INTEGER NOT NULL REFERENCES asignatura (id_asignatura)
 );
 
--- ---------------------------------------------------------------------
--- COMUNIDAD / MIEMBRO_COMUNIDAD / MENSAJE: modulo de chat institucional.
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS comunidad (
   id_comunidad INTEGER PRIMARY KEY AUTOINCREMENT,
   nombre TEXT NOT NULL,
@@ -115,9 +86,6 @@ CREATE TABLE IF NOT EXISTS mensaje (
   id_comunidad INTEGER REFERENCES comunidad (id_comunidad)
 );
 
--- ---------------------------------------------------------------------
--- CURSO_BIENESTAR / INSCRIPCION_BIENESTAR: modulo de bienestar estudiantil.
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS curso_bienestar (
   id_curso INTEGER PRIMARY KEY AUTOINCREMENT,
   nombre TEXT NOT NULL,

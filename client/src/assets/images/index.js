@@ -1,8 +1,3 @@
-// Barrel de assets reales exportados del prototipo de Figma.
-// logo.png / isotipo.png vienen con fondo blanco solido (sin canal alfa);
-// se usan con la clase utilitaria "mix-blend-multiply" para que el blanco
-// se funda con el fondo donde se coloquen.
-
 export { default as logoImg } from './logo.png';
 export { default as isotipoImg } from './isotipo.png';
 

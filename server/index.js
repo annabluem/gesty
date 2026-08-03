@@ -6,9 +6,6 @@ import { fileURLToPath } from 'node:url';
 import { db, getPerfilesDemo } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Solo existe despues de `npm run build` (ver package.json de la raiz).
-// En desarrollo el cliente lo sirve Vite por separado, asi que esta carpeta
-// no existe y este middleware no interfiere con `npm run dev`.
 const clientDist = path.join(__dirname, '../client/dist');
 
 const app = express();
@@ -59,12 +56,10 @@ function getAdministrativoIdPorUsuario(idUsuario) {
   return row?.id_administrativo ?? null;
 }
 
-// GET /api/perfiles-demo -> perfiles Docente/Administrativo que simula el selector del cliente
 app.get('/api/perfiles-demo', (req, res) => {
   res.json(getPerfilesDemo());
 });
 
-// GET /api/salas -> catalogo de salas reservables (regla de negocio: solo estado 'Disponible')
 app.get('/api/salas', (req, res) => {
   const rows = db
     .prepare("SELECT * FROM sala WHERE estado = 'Disponible' ORDER BY bloque, nombre")
@@ -87,8 +82,6 @@ const RESERVA_SELECT = `
   LEFT JOIN usuario a_u ON a_u.id_usuario = a.id_usuario
 `;
 
-// GET /api/reservas -> lista de solicitudes.
-// rol=Administrativo ve todas; con id_usuario un Docente ve solo las suyas.
 app.get('/api/reservas', (req, res) => {
   const { rol, id_usuario } = req.query;
 
@@ -106,13 +99,9 @@ app.get('/api/reservas', (req, res) => {
   res.json(rows);
 });
 
-// POST /api/reservas -> crea una solicitud con estado 'Pendiente'.
-// Regla de negocio: solo usuarios con rol Docente o Administrativo pueden reservar
-// (se valida contra el rol real almacenado en USUARIO, no contra lo que envie el cliente).
 app.post('/api/reservas', (req, res) => {
   const { id_usuario, id_sala, motivo, fecha, hora_inicio, hora_fin } = req.body;
 
-  // Ningun campo obligatorio puede llegar vacio (ni solo espacios en blanco).
   const faltantes = [
     !id_usuario && 'id_usuario',
     !id_sala && 'id_sala',
@@ -144,24 +133,20 @@ app.post('/api/reservas', (req, res) => {
     return res.status(404).json({ error: 'Sala no encontrada.' });
   }
 
-  // La fecha de la reserva no puede ser anterior a hoy.
   if (fecha < fechaDeHoy()) {
     return res.status(400).json({ error: 'La fecha de la reserva no puede ser anterior a hoy.' });
   }
 
-  // La hora de fin debe ser posterior a la hora de inicio.
   if (hora_fin <= hora_inicio) {
     return res.status(400).json({ error: 'La hora de fin debe ser posterior a la hora de inicio.' });
   }
 
-  // Las reservas solo se permiten dentro del horario de atencion del campus.
   if (hora_inicio < HORA_APERTURA || hora_fin > HORA_CIERRE) {
     return res.status(400).json({
       error: `Las reservas solo se pueden hacer entre las ${HORA_APERTURA} y las ${HORA_CIERRE}.`,
     });
   }
 
-  // No se puede reservar la misma sala dos veces en un horario que se solape.
   if (haySolapamiento(id_sala, fecha, hora_inicio, hora_fin)) {
     return res.status(409).json({ error: 'Esa sala ya tiene una reserva en ese horario.' });
   }
@@ -179,7 +164,6 @@ app.post('/api/reservas', (req, res) => {
   res.status(201).json(nueva);
 });
 
-// PATCH /api/reservas/:id -> un Administrativo aprueba/rechaza, o el Docente dueno cancela.
 app.patch('/api/reservas/:id', (req, res) => {
   const { id } = req.params;
   const { estado, id_usuario } = req.body;
@@ -211,9 +195,6 @@ app.patch('/api/reservas/:id', (req, res) => {
   res.json(actualizada);
 });
 
-// Cualquier ruta GET que no sea /api/* y no coincida con un archivo estatico
-// devuelve index.html, para que las rutas de react-router (ej. /app/reservas)
-// funcionen al recargar la pagina o entrar directo por URL.
 app.use((req, res, next) => {
   if (req.method !== 'GET' || req.path.startsWith('/api/')) return next();
   const indexPath = path.join(clientDist, 'index.html');
