@@ -18,7 +18,7 @@ const NEWS = [
     subtitle: 'Postúlate · Participa · Vota',
     image: bannerEleccionesImg,
     overlay: true,
-    className: 'row-span-2',
+    className: 'bg-gesty-navy row-span-2',
   },
   {
     title: 'Semana del Idioma Español 2026',
@@ -75,7 +75,7 @@ export default function Home() {
                   <img
                     src={item.image}
                     alt=""
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-contain p-4 pb-16"
                   />
                   <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <p className="relative font-display text-sm font-bold leading-snug">{item.title}</p>
